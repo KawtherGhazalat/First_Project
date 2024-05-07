@@ -1,0 +1,84 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="7.21.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Admin\.github\workflows\main.yml" />
+    <None Include="wwwroot\home\.sass-cache\9dcd260a98b05df5e2bbaebb993f2e918e16ad1d\style.scssc" />
+    <None Include="wwwroot\home\.sass-cache\9dcd260a98b05df5e2bbaebb993f2e918e16ad1d\_fonts.scssc" />
+    <None Include="wwwroot\home\.sass-cache\9dcd260a98b05df5e2bbaebb993f2e918e16ad1d\_mixin.scssc" />
+    <None Include="wwwroot\home\.sass-cache\9dcd260a98b05df5e2bbaebb993f2e918e16ad1d\_responsive.scssc" />
+    <None Include="wwwroot\home\.sass-cache\9dcd260a98b05df5e2bbaebb993f2e918e16ad1d\_theme_color.scssc" />
+    <None Include="wwwroot\home\.sass-cache\b687762b7660b1f71ae40e600add14c590cfdbc7\style.scssc" />
+    <None Include="wwwroot\home\.sass-cache\b687762b7660b1f71ae40e600add14c590cfdbc7\_mixin.scssc" />
+    <None Include="wwwroot\home\.sass-cache\b687762b7660b1f71ae40e600add14c590cfdbc7\_responsive.scssc" />
+    <None Include="wwwroot\home\.sass-cache\b687762b7660b1f71ae40e600add14c590cfdbc7\_theme_color.scssc" />
+    <None Include="wwwroot\home\.sass-cache\b687762b7660b1f71ae40e600add14c590cfdbc7\_variables.scssc" />
+    <None Include="wwwroot\home\.sass-cache\cd34cfe2239c57be653ecbef896fb3750f9e6f5b\style.scssc" />
+    <None Include="wwwroot\home\.sass-cache\cd34cfe2239c57be653ecbef896fb3750f9e6f5b\_fonts.scssc" />
+    <None Include="wwwroot\home\.sass-cache\cd34cfe2239c57be653ecbef896fb3750f9e6f5b\_mixin.scssc" />
+    <None Include="wwwroot\home\.sass-cache\cd34cfe2239c57be653ecbef896fb3750f9e6f5b\_responsive.scssc" />
+    <None Include="wwwroot\home\.sass-cache\cd34cfe2239c57be653ecbef896fb3750f9e6f5b\_theme_color.scssc" />
+    <None Include="wwwroot\home\.sass-cache\cd34cfe2239c57be653ecbef896fb3750f9e6f5b\_variables.scssc" />
+    <None Include="wwwroot\home\.sass-cache\eb65a9acf275cb72706472a84a7409ec6f3ac36a\style.scssc" />
+    <None Include="wwwroot\home\.sass-cache\eb65a9acf275cb72706472a84a7409ec6f3ac36a\_mixin.scssc" />
+    <None Include="wwwroot\home\.sass-cache\eb65a9acf275cb72706472a84a7409ec6f3ac36a\_responsive.scssc" />
+    <None Include="wwwroot\home\.sass-cache\eb65a9acf275cb72706472a84a7409ec6f3ac36a\_theme_color.scssc" />
+    <None Include="wwwroot\home\.sass-cache\eb65a9acf275cb72706472a84a7409ec6f3ac36a\_variables.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\._21880c0ffe15753a53f8402e9f64e1077e071510" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\._2866be86c578bb583fbf023501bb9fd24cc3bf22" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\._3948936f84e1a30385e73a9be140b58b48c82e15" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\._643489b018602f15119d8f44aeb7fc79468873a9" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\._7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\._9dc767a56f3dc2f8a933300255cd2265f13191d4" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\21880c0ffe15753a53f8402e9f64e1077e071510\._style.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\21880c0ffe15753a53f8402e9f64e1077e071510\style.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\._extend.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\._fonts.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\._global.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\._minxi.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\._variables.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\extend.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\fonts.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\global.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\minxi.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\variables.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\3948936f84e1a30385e73a9be140b58b48c82e15\._style.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\3948936f84e1a30385e73a9be140b58b48c82e15\style.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\._main.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\._responsive.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\main.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\responsive.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\._extend.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\._fonts.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\._global.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\._minxi.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\._variables.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\extend.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\fonts.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\global.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\minxi.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\variables.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\._main.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\._responsive.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\main.scssc" />
+    <None Include="wwwroot\LoginAndRegister\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\responsive.scssc" />
+  </ItemGroup>
+
+</Project>
