@@ -58,11 +58,14 @@ namespace First_Project.Controllers
                 switch (users.Roleid)
                 {
                     case 1:
-                        HttpContext.Session.SetInt32("AdminId", (int)user.Userid);
+                        HttpContext.Session.SetInt32("AdminId", (int)users.Userid);
                         return RedirectToAction("Index", "Admin");
                     case 2:
-                        HttpContext.Session.SetInt32("Userid", (int)user.Userid);
-                        return RedirectToAction("Index", "Home");
+                        HttpContext.Session.SetInt32("Userid", (int)users.Userid);
+                        return RedirectToAction("Index", "Users");
+                    case 3:
+                        HttpContext.Session.SetInt32("Chefid", (int)users.Userid);
+                        return RedirectToAction("Index", "Chef");
 
                 }
             }
@@ -70,5 +73,14 @@ namespace First_Project.Controllers
             return View();
 
         }
+        
+
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            //return RedirectToAction(" ", " ");
+            return View("Login");
+        }
+
     }
 }

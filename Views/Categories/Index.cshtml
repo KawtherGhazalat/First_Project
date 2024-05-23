@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/views/shared/_adminlayout.cshtml";
+}
+
+<h1>Category</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <div class="col-12">
+
+@using (Html.BeginForm("Index", "Categories", FormMethod.Get))
+            {
+             
+                <div class="form-group">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search..." />
+                    <button type="submit" class="btn btn-primary">Search</button>
+
+                </div>
+                //<input type="search" name="search" placeholder="Type any keywords...">
+               // <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+           // </form>
+            }
+           @*  <form>
+                 <a asp-controller="Home" asp-action="Category" asp-route-id="@item.Categoryid">
+                <input type="search" name="search" placeholder="Type any keywords...">
+                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form> *@
+        </div>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoryname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePath) @*Image Path*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoryname)
+            </td>
+            <td>
+                    <img src=@Url.Content("~/Images/" + item.ImagePath )
+                         asp-append-version="true" style="border-radius:20%;" width="100" height="100" />
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Categoryid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Categoryid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Categoryid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

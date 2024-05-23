@@ -12,6 +12,4 @@ public partial class Testimonial
     public string Content { get; set; } = null!;
 
     public DateTime? Dateposted { get; set; }
-
-    public virtual User? User { get; set; }
 }

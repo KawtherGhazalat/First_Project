@@ -21,8 +21,10 @@ namespace First_Project.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            var modelContext = _context.Users.Include(u => u.Role);
-            return View(await modelContext.ToListAsync());
+            //var modelContext = _context.Users.Include(u => u.Role);
+            //return View(await modelContext.ToListAsync());
+            var res = _context.Recipes.ToList();
+            return View(res);
         }
 
         // GET: Users/Details/5

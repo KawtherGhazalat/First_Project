@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+    <title>@ViewData["Title"] - My ASP.NET Application</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,15 +18,30 @@
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="~/Home/style.css">
-
+    <link rel="stylesheet" href="~/Home/css/CustomStyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Delicious - Food Blog Template | Home</title>
+    <link rel="icon" href="~/Home/img/core-img/favicon.ico">
+    <link rel="stylesheet" href="~/Home/style.css">
+    <link rel="stylesheet" href="~/Home/css/CustomStyle.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .single-top-catagory img {
+            width: 100%;
+            height: 300px; /* Adjust height as needed */
+            object-fit: cover;
+        }
+    </style>
 </head>
 
-<body>
+
     <!-- Preloader -->
     <div id="preloader">
         <i class="circle-preloader"></i>
         <img src="~/Home/img/core-img/salad.png" alt="">
     </div>
+
 
     <!-- Search Wrapper -->
     <div class="search-wrapper">
@@ -55,7 +73,7 @@
                             <div id="breakingNewsTicker" class="ticker">
                                 <ul>
                                     <li><a href="#">Hello World!</a></li>
-                                    <li><a href="#">Welcome to Colorlib Family.</a></li>
+                                    <li><a href="#">Welcome to Our Blog Recipe.</a></li>
                                     <li><a href="#">Hello Delicious!</a></li>
                                 </ul>
                             </div>
@@ -67,9 +85,6 @@
                         <div class="top-social-info text-right">
                             <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
                             <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
                             <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                         </div>
                     </div>
@@ -85,7 +100,9 @@
                     <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
                         <!-- Logo -->
-                        <a class="nav-brand" href="~/Home/index.html"><img src="~/Home/img/core-img/logo.png" alt=""></a>
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <img src="~/Home/img/core-img/logo.png" alt="">
+                    </a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -104,82 +121,39 @@
                             <div class="classynav">
                                 <ul>
                                     <li class="active"><a href="~/Home/index.html">Home</a></li>
+                                    
                                     <li>
-                                        <a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="~/Home/index.html">Home</a></li>
-                                            <li><a href="~/Home/about.html">About Us</a></li>
-                                            <li><a href="~/Home/blog-post.html">Blog Post</a></li>
-                                            <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
-                                            <li><a href="~/Home/contact.html">Contact</a></li>
-                                            <li><a href="~/Home/elements.html">Elements</a></li>
-                                            <li>
-                                                <a href="#">Dropdown</a>
+                                        <a href="#">Mega Menu</a>
+                                        <div class="megamenu">
+                                            <ul class="single-mega cn-col-4">
                                                 <ul class="dropdown">
-                                                    <li><a href="~/Home/index.html">Home</a></li>
-                                                    <li><a href="~/Home/about.html">About Us</a></li>
-                                                    <li><a href="~/Home/blog-post.html">Blog Post</a></li>
-                                                    <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
-                                                    <li><a href="~/Home/contact.html">Contact</a></li>
-                                                    <li><a href="~/Home/elements.html">Elements</a></li>
-                                                    <li>
-                                                        <a href="#">Dropdown</a>
-                                                        <ul class="dropdown">
-                                                            <li><a href="~/Home/index.html">Home</a></li>
-                                                            <li><a href="~/Home/about.html">About Us</a></li>
-                                                            <li><a href="~/Home/blog-post.html">Blog Post</a></li>
-                                                            <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
-                                                            <li><a href="~/Home/contact.html">Contact</a></li>
-                                                            <li><a href="~/Home/elements.html">Elements</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                                <li><a href="~/Home/index.html">Home</a></li>
+                                                <li><a href="~/Home/about.html">About Us</a></li>
+                                                <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
+                                                <li><a href="~/Home/contact.html">Contact</a></li>
+                                            </ul>
+                                            
+                                        </div>
                                     </li>
                                     <li>
                                         <a href="#">Mega Menu</a>
                                         <div class="megamenu">
                                             <ul class="single-mega cn-col-4">
-                                                <li class="title">Catagory</li>
+                                                <ul class="dropdown">
                                                 <li><a href="~/Home/index.html">Home</a></li>
                                                 <li><a href="~/Home/about.html">About Us</a></li>
-                                                <li><a href="~/Home/blog-post.html">Blog Post</a></li>
                                                 <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
                                                 <li><a href="~/Home/contact.html">Contact</a></li>
-                                                <li><a href="~/Home/elements.html">Elements</a></li>
                                             </ul>
-                                            <ul class="single-mega cn-col-4">
-                                                <li class="title">Catagory</li>
-                                                <li><a href="~/Home/index.html">Home</a></li>
-                                                <li><a href="~/Home/about.html">About Us</a></li>
-                                                <li><a href="~/Home/blog-post.html">Blog Post</a></li>
-                                                <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
-                                                <li><a href="~/Home/contact.html">Contact</a></li>
-                                                <li><a href="~/Home/elements.html">Elements</a></li>
-                                            </ul>
-                                            <ul class="single-mega cn-col-4">
-                                                <li class="title">Catagory</li>
-                                                <li><a href="~/Home/index.html">Home</a></li>
-                                                <li><a href="~/Home/about.html">About Us</a></li>
-                                                <li><a href="~/Home/blog-post.html">Blog Post</a></li>
-                                                <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
-                                                <li><a href="~/Home/contact.html">Contact</a></li>
-                                                <li><a href="~/Home/elements.html">Elements</a></li>
-                                            </ul>
-                                            <div class="single-mega cn-col-4">
-                                                <div class="receipe-slider owl-carousel">
-                                                    <a href="#"><img src="~/Home/img/bg-img/bg1.jpg" alt=""></a>
-                                                    <a href="#"><img src="~/Home/img/bg-img/bg6.jpg" alt=""></a>
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                     </li>
                                     <li><a href="~/Home/receipe-post.html">Receipies</a></li>
-                                    <li><a href="~/Home/receipe-post.html">4 Vegans</a></li>
+                                   
                                     <li><a href="~/Home/contact.html">Contact</a></li>
                                 </ul>
-
+                              
+                                
                                        
                                 
                      @RenderBody()
@@ -192,14 +166,14 @@
                                                 <div class="footer-social-info text-right">
                                                     <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
                                                     <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                                    <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                                                    <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
                                                     <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                                                 </div>
                                                 <!-- Footer Logo -->
                                                 <div class="footer-logo">
-                                                    <a href="~/Home/index.html"><img src="~/Home/img/core-img/logo.png" alt=""></a>
+                                                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                                                    <img src="~/Home/img/core-img/logo.png" alt="">
+                                                </a>
+
                                                 </div>
                                                 <!-- Copywrite -->
                                                 <p>
@@ -222,6 +196,6 @@
                                 <script src="~/Home/js/plugins/plugins.js"></script>
                                 <!-- Active js -->
                                 <script src="~/Home/js/active.js"></script>
-</body>
+                                
 
 </html>        

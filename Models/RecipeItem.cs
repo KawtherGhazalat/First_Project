@@ -14,6 +14,4 @@ public partial class RecipeItem
     public string? Quantity { get; set; }
 
     public string? Unit { get; set; }
-
-    public virtual Recipe? Recipe { get; set; }
 }

@@ -1,0 +1,23 @@
+﻿@model Recipe 
+@{
+    ViewData["Title"] = "recipe";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<h1 class="text-center">@Model.Title</h1>
+
+<div class="d-flex justify-content-center">
+    <div class="single-best-recipe-area mb-30">
+        <img src="@Url.Content("~/Images/" + Model.Image)" alt="Recipe Image" class="recipe-image" />
+        <div class="recipe-content text-center">
+            <h5>@Model.Title</h5>
+            <div class="ratings">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star-o" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
