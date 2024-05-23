@@ -22,4 +22,9 @@ public partial class User
     public virtual Role? Role { get; set; }
 
     public virtual ICollection<Testimonial> Testimonials { get; } = new List<Testimonial>();
+
+    public static implicit operator decimal(User v)
+    {
+        throw new NotImplementedException();
+    }
 }

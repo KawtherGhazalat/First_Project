@@ -11,6 +11,7 @@ namespace First_Project
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(60); });
             builder.Services.AddDbContext<ModelContext>(x => x.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 
@@ -28,7 +29,7 @@ namespace First_Project
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
