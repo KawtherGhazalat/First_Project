@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+    if (!string.IsNullOrEmpty(ViewBag.Layout))
+    {
+        Layout = $"~/Views/Shared/{ViewBag.Layout}";
+    }
+    else Layout = null;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="text-center">
+                <h1 class="mt-5">About Us</h1>
+                <p class="lead">Welcome to our website! We are a passionate team dedicated to providing high-quality products/services to our customers.</p>
+                <p class="lead">Our mission is to [describe your mission or purpose].</p>
+                <p class="lead">Contact us at [provide contact information] for any inquiries or feedback.</p>
+            </div>
+        </div>
+    </div>
+</div>

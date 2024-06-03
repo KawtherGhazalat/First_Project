@@ -24,7 +24,7 @@
                             <div id="breakingNewsTicker" class="ticker">
                                 <ul>
                                     <li><a href="#">Hello World!</a></li>
-                                    <li><a href="#">Welcome to Our Blog Recipe.</a></li>
+                                    <li><a href="#">Welcome to Colorlib Family.</a></li>
                                     <li><a href="#">Hello Delicious!</a></li>
                                 </ul>
                             </div>
@@ -54,9 +54,8 @@
                     <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
                         <!-- Logo -->
-                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                            <img src="~/Home/img/core-img/logo.png" alt="">
-                        </a>
+                        <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -73,31 +72,16 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li class="active"><a href="index.html">Home</a></li>
+                                    <li class="active"><a href="@Url.Action("Index","Chef")">Home</a></li>
+                                    <li><a href="@Url.Action("MyRecipes","Chef")">My Recipes</a></li>
+                                    <li><a href="@Url.Action("ChefsRecipes","Chef")">Chefs Recipes</a></li>
+                                    <li><a href="@Url.Action("ContactUs","Pages", new {layout = "_LayoutChef.cshtml"})">Contact us</a></li>
+                                    <li><a href="@Url.Action("AboutUs","Pages", new {layout = "_LayoutChef.cshtml"})">About us</a></li>
+                                    <li><a href="@Url.Action("GetProfileChef","Profiles")">My Profile</a></li>
 
-
-                                    <li>
-                                        <a href="#">Mega Menu</a>
-                                        <div class="megamenu">
-                                            <ul class="single-mega cn-col-4">
-                                                <ul class="dropdown">
-                                                    <li><a href="~/Home/index.html">Home</a></li>
-                                                    <li><a href="~/Home/about.html">About Us</a></li>
-                                                    <li><a href="~/Home/receipe-post.html">Receipe Post</a></li>
-                                                    <li><a href="~/Home/contact.html">Contact</a></li>
-                                                </ul>
-
-                                        </div>
-                                    </li>
-                                    <li><a href="receipe-post.html">Receipies</a></li>
-                                    
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="@Url.Action("Logout","LoginAndRegister")">Logout</a></li>
                                 </ul>
 
-                                <!-- Newsletter Form -->
-                                <div class="search-btn">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </div>
 
                             </div>
                             <!-- Nav End -->
@@ -111,6 +95,7 @@
     <div>
         @RenderBody()
     </div>
+
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer-area">
         <div class="container h-100">
@@ -120,6 +105,9 @@
                     <div class="footer-social-info text-right">
                         <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
                         <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
                         <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                     </div>
                     <!-- Footer Logo -->

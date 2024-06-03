@@ -1,93 +1,136 @@
-﻿@model IEnumerable<First_Project.Models.Recipe>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
     Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
 }
+<style>
+    .card {
+        transition: transform 0.3s ease;
+    }
 
-<!-- ##### Hero Area Start ##### -->
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .recipe-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .modal {
+        z-index: 1050;
+    }
+
+    .modal-backdrop {
+        z-index: 1040;
+    }
+
+</style>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
 <section class="hero-area">
     <div class="hero-slides owl-carousel">
-        <!-- Single Hero Slide -->
         <div class="single-hero-slide bg-img custome-style-one">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                        <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
-                            <h2 data-animation="fadeInUp" data-delay="300ms">Delicios Homemade Burger</h2>
-                            <p data-animation="fadeInUp" data-delay="700ms">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tristique nisl vitae luctus sollicitudin. Fusce consectetur sem eget dui tristique, ac posuere arcu varius.</p>
-                            <a href="#" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Receipe</a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Single Hero Slide -->
         <div class="single-hero-slide bg-img custome-style-two">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                        <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
-                            <h2 data-animation="fadeInUp" data-delay="300ms">Delicios Homemade Burger</h2>
-                            <p data-animation="fadeInUp" data-delay="700ms">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tristique nisl vitae luctus sollicitudin. Fusce consectetur sem eget dui tristique, ac posuere arcu varius.</p>
-                            <a href="#" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Receipe</a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Single Hero Slide -->
         <div class="single-hero-slide bg-img custome-style-three">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                        <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
-                            <h2 data-animation="fadeInUp" data-delay="300ms">Delicios Homemade Burger</h2>
-                            <p data-animation="fadeInUp" data-delay="700ms">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tristique nisl vitae luctus sollicitudin. Fusce consectetur sem eget dui tristique, ac posuere arcu varius.</p>
-                            <a href="#" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Receipe</a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- ##### Hero Area End ##### -->
-<!-- ##### Top Catagory Area Start ##### -->
 <section class="top-catagory-area section-padding-80-0">
     <div class="container">
         <div class="row">
-            <!-- Top Catagory Area -->
-            <div class="col-12 col-lg-6">
-                <div class="single-top-catagory">
-                    <img src="~/Home/img/bg-img/bg2.jpg" alt="">
-                    <!-- Content -->
-                    <div class="top-cta-content">
-                        <h3>Strawberry Cake</h3>
-                        <h6>Simple &amp; Delicios</h6>
-                        <a href="receipe-post.html" class="btn delicious-btn">See Full Receipe</a>
-                    </div>
+            <div class="col-12">
+                <div class="section-heading">
+                    <h3>The best Categories</h3>
                 </div>
             </div>
-            <!-- Top Catagory Area -->
-            <div class="col-12 col-lg-6">
-                <div class="single-top-catagory">
-                    <img src="~/Home/img/bg-img/bg3.jpg" alt="">
-                    <!-- Content -->
-                    <div class="top-cta-content">
-                        <h3>Chinesse Noodles</h3>
-                        <h6>Simple &amp; Delicios</h6>
-                        <a href="receipe-post.html" class="btn delicious-btn">See Full Receipe</a>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <form id="searchForm" asp-action="Index" method="get" class="form-inline mb-4">
+                    <div class="form-group col-8">
+                        <input type="text" name="categoryKeyword" class="form-control w-100" placeholder="Search Categories" />
                     </div>
-                </div>
+                    <div class="form-group col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <img src="@Url.Content("~/Images/" + item.ImagePath)" class="card-img-top" alt="Category Image">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.CategoryName</h5>
+                                <a asp-controller="Home" asp-action="ViewCategoryRecipes" asp-route-id="@item.ID" class="btn btn-primary btn-block">View Recipes</a>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </section>
-<!-- ##### Top Catagory Area End ##### -->
-<!-- ##### Best Receipe Area Start ##### -->
 <section class="best-receipe-area">
     <div class="container">
         <div class="row">
@@ -97,400 +140,136 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <form id="searchForm" asp-action="Index" method="get" class="form-inline mb-4">
+                    <div class="form-group col-8">
+                        <input type="text" name="recipeKeyword" class="form-control w-100" placeholder="Search Recipes" />
+                    </div>
+                    <div class="form-group col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div class="row">
-            @foreach(var item in Model)
+            @foreach (var item in ViewBag.Recipes)
             {
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="~/Home/img/bg-img/r1.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5> @item.Title </h5>
-                                <h5> @item.Price </h5>
-                                <button asp-action="" asp-controller="" asp-route-itemid="@item.Recipeid">Bay</button>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@Url.Content("~/Images/" + item.Recipe.Image)" class="card-img-top" alt="Recipe Image">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Recipe.Title</h5>
+                            <a asp-controller="Home" asp-action="AddToCart" asp-route-id="@item.Recipe.ID" class="btn btn-primary btn-block">Add to Cart</a>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-secondary btn-block testimonial-btn" data-toggle="modal" data-target="#testimonialModal" data-recipe-id="@item.Recipe.ID" data-recipe-title="@item.Recipe.Title">Add Testimonial</button>
+                            <button type="button" class="btn btn-info btn-block view-testimonials-btn" data-toggle="modal" data-target="#viewTestimonialsModal" data-recipe-id="@item.Recipe.ID">View Testimonials</button>
                         </div>
                     </div>
                 </div>
-
             }
         </div>
-    </div>
 </section>
-<!-- ##### Best Receipe Area End ##### -->
-<!-- ##### CTA Area Start ##### -->
-<section class="cta-area bg-img bg-overlay" style="background-image: url(img/bg-img/bg4.jpg);">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-12">
-                <!-- Cta Content -->
-                <div class="cta-content text-center">
-                    <h2>Gluten Free Receipies</h2>
 
-                    <a href="#" class="btn delicious-btn">Discover all the receipies</a>
-                </div>
+<div class="modal fade" id="viewTestimonialsModal" tabindex="-1" role="dialog" aria-labelledby="viewTestimonialsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewTestimonialsModalLabel">View testimonials</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-    </div>
-</section>
-<!-- ##### CTA Area End ##### -->
-<!-- ##### Small Receipe Area Start ##### -->
-<section class="small-receipe-area section-padding-80-0">
-    <div class="container">
-        <div class="row">
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr1.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Homemade italian pasta</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr2.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Baked Bread</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr3.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Scalops on salt</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr4.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Fruits on plate</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr5.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Macaroons</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr6.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Chocolate tart</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr7.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Berry Desert</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr8.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Zucchini Grilled on peper</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Home/img/bg-img/sr9.jpg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Chicken Salad</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                        <p>2 Comments</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- ##### Small Receipe Area End ##### -->
-<!-- ##### Quote Subscribe Area Start ##### -->
-<section class="quote-subscribe-adds">
-    <div class="container">
-        <div class="row align-items-end">
-            <!-- Quote -->
-            <div class="col-12 col-lg-4">
-                <div class="quote-area text-center">
-                    <span>"</span>
-                    <h4>Nothing is better than going home to family and eating good food and relaxing</h4>
-                    <p>John Smith</p>
-                    <div class="date-comments d-flex justify-content-between">
-                        <div class="date">January 04, 2018</div>
-                        <div class="comments">2 Comments</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Newsletter -->
-            <div class="col-12 col-lg-4">
-                <div class="newsletter-area">
-                    <h4>Subscribe to our newsletter</h4>
-                    <!-- Form -->
-                    <div class="newsletter-form bg-img bg-overlay" style="background-image: url(img/bg-img/bg1.jpg);">
-                        <form action="#" method="post">
-                            <input type="email" name="email" placeholder="Subscribe to newsletter">
-                            <button type="submit" class="btn delicious-btn w-100">Subscribe</button>
-                        </form>
-                        <p>Fusce nec ante vitae lacus aliquet vulputate. Donec sceleri sque accumsan molestie. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Adds -->
-            <div class="col-12 col-lg-4">
-                <div class="delicious-add">
-                    <img src="~/Home/img/bg-img/add.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- ##### Quote Subscribe Area End ##### -->
-<!-- ##### Follow Us Instagram Area Start ##### -->
-<div class="follow-us-instagram">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h5>Follow Us Instragram</h5>
-            </div>
-        </div>
-    </div>
-    <!-- Instagram Feeds -->
-    <div class="insta-feeds d-flex flex-wrap">
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta1.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta2.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta3.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta4.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta5.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta6.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta7.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Content</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testimonialsTableBody">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
-<!-- ##### Follow Us Instagram Area End ##### -->
+
+
+
+<div class="modal fade" id="testimonialModal" tabindex="-1" role="dialog" aria-labelledby="testimonialModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="testimonialModalLabel">Add Testimonial for <span id="recipeTitle"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="testimonialForm" asp-controller="Recipes" asp-action="SubmitTestimonial" method="post">
+                    <div class="form-group">
+                        <label for="testimonialContent">Content</label>
+                        <textarea class="form-control" id="testimonialContent" name="Content" rows="3" required></textarea>
+                    </div>
+                    <input type="hidden" id="recipeId" name="RecipeId" />
+                    <button type="submit" class="btn btn-primary">Submit Testimonial</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.testimonial-btn').click(function () {
+            var recipeId = $(this).data('recipe-id');
+            var recipeTitle = $(this).data('recipe-title');
+
+            $('#recipeId').val(recipeId);
+            $('#recipeTitle').text(recipeTitle);
+        });
+
+        $('.view-testimonials-btn').click(function () {
+            var recipeId = $(this).data('recipe-id');
+
+            // Clear previous testimonials
+            $('#testimonialsTableBody').empty();
+
+            $.ajax({
+                url: '@Url.Action("GetTestimonials", "Users")',
+                type: 'GET',
+                data: { recipeId: recipeId },
+                success: function (data) {
+                    if (data.length > 0) {
+                        data.forEach(function (testimonial) {
+                            $('#testimonialsTableBody').append(
+                                '<tr>' +
+                                '<td>' + testimonial.content + '</td>' +
+                                '<td>' + new Date(testimonial.dateposted).toLocaleDateString() + '</td>' +
+                                '</tr>'
+                            );
+                        });
+                    } else {
+                        $('#testimonialsTableBody').append('<tr><td colspan="3" class="text-center">No testimonials available.</td></tr>');
+                    }
+                },
+                error: function () {
+                    alert('Error loading testimonials.');
+                }
+            });
+
+            // Show the modal
+            $('#viewTestimonialsModal').modal('show');
+        });
+    });
+
+</script>

@@ -1,0 +1,513 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <style>
+        body {
+            background-color: #f4f7f9;
+        }
+
+        .container {
+            width: 450px;
+            margin: 50px auto;
+            min-height: 200px;
+            padding: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+            .container h1 {
+                font-family: 'Quicksand', sans-serif;
+                margin-bottom: 40px;
+            }
+
+            .container p {
+                font-family: 'Quicksand', sans-serif;
+                color: #888;
+                margin-top: 50px;
+            }
+
+            .container .blank_space {
+                height: 75px;
+                display: block;
+            }
+
+            .container .fieldRow {
+                position: relative;
+                display: inline-block;
+                width: 450px;
+                margin: 10px 0;
+            }
+
+                .container .fieldRow.col2 {
+                    width: 210px;
+                    float: left;
+                }
+
+                .container .fieldRow.last {
+                    float: right;
+                }
+
+                .container .fieldRow.focus input {
+                    outline: none;
+                    border-color: #4aa9f2;
+                    box-shadow: 0px 0px 2px 3px #edf2f6;
+                    background-color: #fff;
+                }
+
+                    .container .fieldRow.focus input::-webkit-input-placeholder {
+                        color: #8d9dac;
+                    }
+
+                    .container .fieldRow.focus input::-moz-input-placeholder {
+                        color: #8d9dac;
+                    }
+
+                    .container .fieldRow.focus input::-ms-input-placeholder {
+                        color: #8d9dac;
+                    }
+
+                    .container .fieldRow.focus input + label {
+                        left: -100px;
+                        opacity: 0;
+                    }
+
+                        .container .fieldRow.focus input + label + i {
+                            opacity: 1;
+                        }
+
+                .container .fieldRow.active input {
+                    outline: none;
+                    border-color: #d2dbe2;
+                    box-shadow: none;
+                    background-color: #ecf1f5;
+                }
+
+                    .container .fieldRow.active input::-webkit-input-placeholder {
+                        color: #8d9dac;
+                    }
+
+                    .container .fieldRow.active input::-moz-input-placeholder {
+                        color: #8d9dac;
+                    }
+
+                    .container .fieldRow.active input::-ms-input-placeholder {
+                        color: #8d9dac;
+                    }
+
+                    .container .fieldRow.active input + label {
+                        left: -100px;
+                        opacity: 0;
+                    }
+
+                        .container .fieldRow.active input + label + i {
+                            opacity: 1;
+                        }
+
+                .container .fieldRow.active .iconCheck {
+                    color: #98a7b4 !important;
+                }
+
+                .container .fieldRow.credit_card {
+                    transition: all 0.35s ease;
+                }
+
+                    .container .fieldRow.credit_card.zoomOn {
+                        transform: scale(2);
+                        z-index: 999;
+                    }
+
+                        .container .fieldRow.credit_card.zoomOn .zoomBtn {
+                            display: none;
+                        }
+
+                        .container .fieldRow.credit_card.zoomOn .closeBtn {
+                            display: block;
+                        }
+
+            .container input {
+                display: inline-block;
+                padding: 8px 50px;
+                border-radius: 4px;
+                border: solid 2px #d2dbe2;
+                height: 55px;
+                box-sizing: border-box;
+                width: 100%;
+                font-family: 'Quicksand', sans-serif;
+                font-size: 18px;
+                transition: all 0.3s ease-in-out;
+                color: #000;
+            }
+
+                .container input.credit_card_number {
+                    padding-right: 100px;
+                }
+
+                .container input + label {
+                    position: absolute;
+                    display: inline-block;
+                    top: 15px;
+                    left: 20px;
+                    color: #8d9dac;
+                    font-family: 'Quicksand', sans-serif;
+                    font-size: 14px;
+                    font-size: 18px;
+                    opacity: 1;
+                    transition: all 0.6s ease;
+                }
+
+                .container input::-webkit-input-placeholder {
+                    color: #fff;
+                }
+
+                .container input::-moz-input-placeholder {
+                    color: #fff;
+                }
+
+                .container input::-ms-input-placeholder {
+                    color: #fff;
+                }
+
+            .container i {
+                position: absolute;
+                left: 20px;
+                top: 17px;
+                opacity: 0;
+                color: #8d9dac;
+                font-size: 21px;
+            }
+
+            .container #iconCC {
+                position: initial;
+                left: 0;
+                opacity: 1;
+                color: #999;
+                width: 30px;
+                display: inline-block;
+            }
+
+            .container .closeBtn {
+                position: absolute;
+                top: 11px;
+                right: 10px;
+                padding: 8px 10px;
+                background-color: #d2dbe2;
+                color: #888;
+                border-radius: 4px;
+                font-size: 14px;
+                transition: all 0.7s ease;
+                display: none;
+            }
+
+                .container .closeBtn i {
+                    position: relative;
+                    left: 0;
+                    top: 0;
+                    color: #333;
+                    opacity: 1;
+                    font-size: 18px;
+                }
+
+                .container .closeBtn:hover {
+                    background-color: #888;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+            .container .zoomBtn {
+                position: absolute;
+                top: 11px;
+                right: 10px;
+                padding: 8px 10px;
+                background-color: #d2dbe2;
+                color: #888;
+                border-radius: 4px;
+                font-family: 'Quicksand', sans-serif;
+                font-size: 14px;
+                transition: all 0.7s ease;
+            }
+
+                .container .zoomBtn:hover {
+                    background-color: #888;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                    .container .zoomBtn:hover:after, .container .zoomBtn:hover:before {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+
+                .container .zoomBtn:before {
+                    content: 'Enlarge the number to better control';
+                    width: 300px;
+                    height: 20px;
+                    padding: 5px 0;
+                    background-color: #888;
+                    display: block;
+                    position: absolute;
+                    z-index: 1;
+                    top: -50px;
+                    visibility: hidden;
+                    right: 0px;
+                    border-radius: 4px;
+                    color: #fff;
+                    opacity: 0;
+                    transition: all 0.7s ease 0.2s;
+                    transform: translateY(50px);
+                }
+
+                .container .zoomBtn:after {
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 15px 20px 0 20px;
+                    border-color: #888 transparent transparent transparent;
+                    content: '';
+                    top: -21px;
+                    right: 12px;
+                    position: absolute;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: all 0.7s ease 0.2s;
+                    transform: translateY(50px);
+                }
+
+            .container .iconCheck {
+                position: absolute;
+                right: 20px;
+                left: auto;
+                top: 17px;
+                opacity: 1;
+                display: none;
+            }
+
+            .container #iconWrong {
+                color: #ea4949;
+            }
+
+            .container #iconPassed {
+                color: #73ba4b;
+            }
+
+        button[type="submit"] {
+            width: 450px;
+            margin: 20px 0;
+            background: transparent;
+            border: none;
+            background: #4aa9f2;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 18px;
+            transition: all 0.35s ease;
+        }
+
+            button[type="submit"]:hover {
+                cursor: pointer;
+                background: #87d37c;
+            }
+
+        .overlay {
+            position: fixed;
+            background: #fff;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            z-index: 998;
+            opacity: 0.6;
+            display: none;
+        }
+
+            .overlay.open {
+                display: block;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Payment form</h1>
+
+        <span class="fieldRow">
+            <input id="name" type="name" placeholder="" />
+            <label for="name">First name</label>
+            <i for="name" class="fa fa-user"></i>
+        </span>
+
+        <span class="fieldRow">
+            <input id="surname" type="name" placeholder="" />
+            <label for="surname">Last name</label>
+            <i for="surname" class="fa fa-user"></i>
+        </span>
+
+        <div class="blank_space">
+            <span class="fieldRow credit_card">
+                <input id="cc" class="credit_card_number" type="text" placeholder="" />
+                <label for="cc">Credit card number</label>
+                <i for="cc" class="fa fa-credit-card"></i>
+                <div class="zoomBtn">ZOOM</div>
+                <div class="closeBtn"><i class="fa fa-times"></i></div>
+            </span>
+        </div>
+
+        <span class="fieldRow">
+            <input id="cvv" maxlength="3" type="text" placeholder="XXX" oninput="validateCVV(this)" />
+            <label for="cvv">CVV</label>
+            <i for="cvv" class="fa fa-lock"></i>
+        </span>
+
+
+        <span class="fieldRow">
+            <input id="date" type="text" placeholder="mm/yy" oninput="formatDate(this)" maxlength="5" />
+            <label for="date">Date</label>
+            <i for="date" class="fa fa-calendar"></i>
+        </span>
+
+
+        <button type="submit" onclick="ValidateAndSubmit()">PAY NOW</button>
+    </div>
+
+    <div class="overlay"></div>
+
+
+
+
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.0.2/cleave.min.js" integrity="sha512-SvgzybymTn9KvnNGu0HxXiGoNeOi0TTK7viiG0EGn2Qbeu/NFi3JdWrJs2JHiGA1Lph+dxiDv5F9gDlcgBzjfA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script>
+    function ValidateAndSubmit() {
+        var firstName = document.getElementById("name").value;
+        var lastName = document.getElementById("surname").value;
+        var creditCardNumber = document.getElementById("cc").value;
+        var cvv = document.getElementById("cvv").value;
+        var expiryDate = document.getElementById("date").value;
+
+        // Validate first name
+        if (firstName.trim() === "") {
+            alert("Please enter your first name.");
+            return;
+        }
+
+        // Validate last name
+        if (lastName.trim() === "") {
+            alert("Please enter your last name.");
+            return;
+        }
+
+        // Validate credit card number
+        if (creditCardNumber.trim() === "") {
+            alert("Please enter your credit card number.");
+            return;
+        }
+
+        // Validate CVV
+        if (cvv.trim() === "") {
+            alert("Please enter your CVV number.");
+            return;
+        }
+
+        // Validate expiry date
+        if (expiryDate.trim() === "") {
+            alert("Please enter the expiry date.");
+            return;
+        }
+
+        // All fields are filled, submit the form
+        alert("Form submitted successfully!");
+        document.getElementById("name").value = "";
+        document.getElementById("surname").value = "";
+        document.getElementById("cc").value = "";
+        document.getElementById("cvv").value = "";
+        document.getElementById("date").value = "";
+
+        window.location.href = '@Url.Action("Pay", "Payment")';
+    }
+
+    function formatDate(input) {
+        var date = input.value;
+        var formattedDate = date.replace(/^(\d{2})(\d{1,2})$/, '$1/$2');
+        input.value = formattedDate;
+    }
+    function validateCVV(input) {
+        var cvv = input.value;
+        var isValid = /^\d{3}$/.test(cvv); // Check if the input consists of exactly 3 digits
+
+        if (!isValid) {
+            input.setCustomValidity("CVV must be a 3-digit number.");
+        } else {
+            input.setCustomValidity(""); // Reset the validation message
+        }
+    }
+
+    var $field = $('input'),
+        $zoomBtn = $('.zoomBtn'),
+        $closeBtn = $('.closeBtn'),
+        $overlay = $('.overlay');
+
+    $field.on('focus', function () {
+        $(this).parent().addClass('focus');
+        $(this).parent().removeClass('active');
+    })
+
+    $field.on('blur', function () {
+        $(this).parent().removeClass('focus');
+
+        if ($(this).val() !== "") {
+            $(this).parent().addClass('active');
+        } else {
+            $(this).parent().removeClass('active');
+        }
+    });
+
+    function closeZoom() {
+        $closeBtn.parent().removeClass('zoomOn');
+        $overlay.removeClass('open');
+    }
+
+
+    $zoomBtn.on('click', function () {
+        $(this).parent().addClass('zoomOn');
+        $overlay.addClass('open');
+    });
+
+    $closeBtn.on('click', function () {
+        closeZoom();
+    });
+
+    $overlay.click(function () {
+        closeZoom();
+    })
+
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27) { // escape key maps to keycode `27`
+            closeZoom();
+        }
+    });
+
+    // Setup Cleave.js
+    var cleaveCreditCard = new Cleave('.credit_card_number', {
+        creditCard: true,
+        onCreditCardTypeChanged: function (type) {
+            if (selectedCardIcon) {
+                DOM.removeClass(selectedCardIcon, 'active');
+            }
+
+            selectedCardIcon = DOM.select('.icon-' + type);
+
+            if (selectedCardIcon) {
+                DOM.addClass(selectedCardIcon, 'active');
+            }
+        }
+    });
+
+
+</script>

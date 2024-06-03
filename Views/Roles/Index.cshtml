@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Rolename)
+                @Html.DisplayNameFor(model => model.RoleName)
             </th>
             <th></th>
         </tr>
@@ -22,12 +22,12 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Rolename)
+                    @Html.DisplayFor(modelItem => item.RoleName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Roleid">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Roleid">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Roleid">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }

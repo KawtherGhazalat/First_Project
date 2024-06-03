@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace First_Project.Models;
 
 public partial class Profile
 {
-    public decimal Userid { get; set; }
-
-    public string? Username { get; set; }
-
-    public string? Rolename { get; set; }
-    public string? Image { get; set; }
-    [DisplayName("Image ")]
+    [Key]
+    public int ID { get; set; }
     [NotMapped]
-    public IFormFile ImageFile { get; set; }
+    public int UserId { get; set; }
+    public string? Image { get; set; }
+    [DisplayName("Image")]
+    [NotMapped]
+    public IFormFile? ImageFile { get; set; }
     public string? Bio { get; set; }
-
-    public virtual User User { get; set; } = null!;
+    public DateTime? CreationDate { get; set; }
+    [NotMapped]
+    [ForeignKey("UserId")]
+    public virtual User? User { get; set; } = null!;
 }
+

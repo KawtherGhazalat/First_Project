@@ -1,0 +1,119 @@
+﻿@model Profile
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.User.Username - Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom styles here */
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-info {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+            .profile-info h2 {
+                margin-top: 0;
+            }
+
+            .profile-info p {
+                margin-bottom: 0;
+            }
+    </style>
+</head>
+<body>
+    <div class="container profile-container">
+        <div class="profile-header">
+            <h1>@Model.User.Username</h1>
+            <img src="@Url.Content("~/Images/" + Model.Image)" class="img-fluid" height="200" width="200" />
+        </div>
+        <div class="profile-info">
+            <h2>About Me</h2>
+            <p>@Model.Bio</p>
+        </div>
+        <div class="profile-info">
+            <h2>Contact Information</h2>
+            <p>Email: @Model.User.Email</p>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="EditProfileModal" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="ID" />
+                        <div class="form-group">
+                            <label asp-for="UserId" class="control-label"></label>
+                            <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users"></select>
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ImageFile" class="control-label"></label>
+                            <img src="@Url.Content("~/Images/" + Model.Image)" class="img-fluid" alt="Image" />
+                            <input asp-for="ImageFile" type="file" class="form-control" />
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Bio" class="control-label"></label>
+                            <input asp-for="Bio" class="form-control" />
+                            <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CreationDate" class="control-label"></label>
+                            <input asp-for="CreationDate" class="form-control" />
+                            <span asp-validation-for="CreationDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

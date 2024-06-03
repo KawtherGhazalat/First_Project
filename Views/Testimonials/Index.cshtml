@@ -1,22 +1,20 @@
-﻿@model IEnumerable<Testimonial>
+﻿@model IEnumerable<First_Project.Models.Testimonial>
 
 @{
-    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Testimonial</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Userid)
+                @Html.DisplayNameFor(model => model.Content)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Dateposted)
@@ -28,18 +26,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Userid)
+                @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Content)
+                @Html.DisplayFor(modelItem => item.User.Username)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Dateposted)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Testimonialid">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Testimonialid">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Testimonialid">Delete</a>
+                    <a class="btn btn-danger" href="@Url.Action("RejectTestimonual", new {testimonialId = item.ID})">
+                        Reject
+                    </a>
+
+                    <a class="btn btn-primary" href="@Url.Action("AcceptTestimonual", new {testimonialId = item.ID})">
+                        Accept
+                    </a>
             </td>
         </tr>
 }

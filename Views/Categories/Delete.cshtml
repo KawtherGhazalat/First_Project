@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Delete";
+    Layout = "~/views/shared/_adminlayout.cshtml";
+
 }
 
 <h1>Delete</h1>
@@ -12,16 +14,23 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categoryname)
+            @Html.DisplayNameFor(model => model.CategoryName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categoryname)
+            @Html.DisplayFor(model => model.CategoryName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ImagePath)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagePath)
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Url.Content("~/Images/" + Model.ImagePath)" width="200" height="200" class="img-fluid" />
+            }
+            else
+            {
+                <span>No image available</span>
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
@@ -32,7 +41,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Categoryid" />
+        <input type="hidden" asp-for="ID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using First_Project.Models;
+using First_Project.Enums;
 
 namespace First_Project.Controllers
 {
@@ -17,29 +14,23 @@ namespace First_Project.Controllers
         {
             _context = context;
         }
-
-        // GET: Testimonials
         public async Task<IActionResult> Index()
         {
-            var modelContext = _context.Testimonials.Include(t => t.Userid);
-            return View(await modelContext.ToListAsync());
-
-            //return _context.Testimonials != null ?
-            //            View(await _context.Testimonials.ToListAsync()) :
-            //            Problem("Entity set 'ModelContext.Testimonials'  is null.");
+            return View(await _context.Testimonials.Where(x=> x.isActive == false).Include(t => t.User).ToListAsync());
         }
 
-        // GET: Testimonials/Details/5
-        public async Task<IActionResult> Details(decimal? id)
+
+        public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Testimonials == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var testimonial = await _context.Testimonials
-                .Include(t => t.Userid)
-                .FirstOrDefaultAsync(m => m.Testimonialid == id);
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (testimonial == null)
             {
                 return NotFound();
@@ -48,19 +39,16 @@ namespace First_Project.Controllers
             return View(testimonial);
         }
 
-        // GET: Testimonials/Create
+
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
             return View();
         }
 
-        // POST: Testimonials/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Testimonialid,Userid,Content,Dateposted")] Testimonial testimonial)
+        public async Task<IActionResult> Create([Bind("Testimonialid,UserId,Content,Dateposted")] Testimonial testimonial)
         {
             if (ModelState.IsValid)
             {
@@ -68,14 +56,15 @@ namespace First_Project.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", testimonial.Userid);
+
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
             return View(testimonial);
         }
 
-        // GET: Testimonials/Edit/5
-        public async Task<IActionResult> Edit(decimal? id)
+
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Testimonials == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -85,18 +74,17 @@ namespace First_Project.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", testimonial.Userid);
+
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
             return View(testimonial);
         }
 
-        // POST: Testimonials/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(decimal id, [Bind("Testimonialid,Userid,Content,Dateposted")] Testimonial testimonial)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Testimonialid,UserId,Content,Dateposted")] Testimonial testimonial)
         {
-            if (id != testimonial.Testimonialid)
+            if (id != testimonial.ID)
             {
                 return NotFound();
             }
@@ -110,7 +98,7 @@ namespace First_Project.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TestimonialExists(testimonial.Testimonialid))
+                    if (!TestimonialExists(testimonial.ID))
                     {
                         return NotFound();
                     }
@@ -121,21 +109,20 @@ namespace First_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserAccountId"] = new SelectList(_context.Users, "Id", "Id", testimonial.Userid);
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
             return View(testimonial);
         }
 
-        // GET: Testimonials/Delete/5
-        public async Task<IActionResult> Delete(decimal? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Testimonials == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var testimonial = await _context.Testimonials
-                .Include(t => t.Userid)
-                .FirstOrDefaultAsync(m => m.Testimonialid == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (testimonial == null)
             {
                 return NotFound();
@@ -143,29 +130,44 @@ namespace First_Project.Controllers
 
             return View(testimonial);
         }
-
-        // POST: Testimonials/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(decimal id)
+        public ActionResult AcceptTestimonual(int testimonialId)
         {
-            if (_context.Testimonials == null)
-            {
-                return Problem("Entity set 'ModelContext.Testimonials'  is null.");
-            }
-            var testimonial = await _context.Testimonials.FindAsync(id);
-            if (testimonial != null)
-            {
-                _context.Testimonials.Remove(testimonial);
-            }
-            
-            await _context.SaveChangesAsync();
+            var testimonial = _context.Testimonials.FirstOrDefault(x => x.ID == testimonialId);
+            testimonial.isActive = true;
+            _context.Testimonials.Update(testimonial);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+        public ActionResult RejectTestimonual(int testimonialId)
+        {
+            var testimonial = _context.Testimonials.FirstOrDefault(x => x.ID == testimonialId);
+            _context.Testimonials.Remove(testimonial);
+
+            _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TestimonialExists(decimal id)
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-          return (_context.Testimonials?.Any(e => e.Testimonialid == id)).GetValueOrDefault();
+            var testimonial = await _context.Testimonials.FindAsync(id);
+            if (testimonial == null)
+            {
+                return NotFound();
+            }
+
+            _context.Testimonials.Remove(testimonial);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+        private bool TestimonialExists(int id)
+        {
+            return (_context.Testimonials?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

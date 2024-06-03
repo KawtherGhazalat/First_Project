@@ -1,7 +1,9 @@
 ﻿using First_Project.Enums;
 using First_Project.Models;
+using MessagePack.Formatters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace First_Project.Controllers
 {
@@ -13,79 +15,31 @@ namespace First_Project.Controllers
         {
             this._context = _context;
         }
-        // GET: RequestController
         public ActionResult Index(string? keyword)
         {
-            return View(_context.Recipes.Where(x=>x.Status == RecipeEnum.Pending.ToString()));
+            return View(_context.Recipes
+                .Include(x=>x.User)
+                .Include(x=>x.Category)
+                .Where(x => x.Status == RecipeEnum.Pending.ToString()));
         }
 
-        // GET: RequestController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult AcceptRecipeRequest(int recipeId)
         {
-            return View();
-        }
+            var recipe = _context.Recipes.FirstOrDefault(x => x.ID == recipeId);
+            recipe.Status = RecipeEnum.Accepted.ToString();
+            _context.Recipes.Update(recipe);
+            _context.SaveChanges();
 
-        // GET: RequestController/Create
-        public ActionResult Create()
-        {
-            return View();
+            return RedirectToAction(nameof(Index));
         }
-
-        // POST: RequestController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult RejectRecipeRequest(int recipeId)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            var recipe = _context.Recipes.FirstOrDefault(x => x.ID == recipeId);
+            recipe.Status = RecipeEnum.Rejected.ToString();
+            _context.Recipes.Update(recipe);
+            _context.SaveChanges();
 
-        // GET: RequestController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: RequestController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: RequestController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RequestController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

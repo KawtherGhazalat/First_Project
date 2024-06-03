@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Contact Us";
+    if (!string.IsNullOrEmpty(ViewBag.Layout))
+    {
+        Layout = $"~/Views/Shared/{ViewBag.Layout}";
+    }
+    else Layout = null;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="text-center">
+                <h1 class="mt-5">Contact Us</h1>
+                <p class="lead">We'd love to hear from you!</p>
+                <p class="lead">Feel free to reach out to us with any questions, feedback, or inquiries.</p>
+                <p class="lead">You can contact us via email at <a href="mailto:info@example.com">info@example.com</a>.</p>
+                <p class="lead">Alternatively, you can fill out the form below:</p>
+
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

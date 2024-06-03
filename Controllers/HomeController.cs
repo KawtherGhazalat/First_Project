@@ -1,5 +1,7 @@
-﻿using First_Project.Models;
+﻿using First_Project.Enums;
+using First_Project.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace First_Project.Controllers
@@ -15,18 +17,32 @@ namespace First_Project.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? recipeKeyword, string? categoryKeyword)
         {
-            var Recipe = _context.Recipes.ToList();
-            ViewBag.Recipes = Recipe;
+            var recipesQuery = _context.Recipes.AsQueryable();
+            var categoriesQuery = _context.Categories.AsQueryable();
 
-            var Category = _context.Categories.ToList();
-            ViewBag.Category = Category;
+            if (!string.IsNullOrEmpty(recipeKeyword))
+            {
+                recipesQuery = recipesQuery.Where(r => r.Title.ToLower().Contains(recipeKeyword.ToLower()) || r.Description.ToLower().Contains(recipeKeyword.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(categoryKeyword))
+            {
+                categoriesQuery = categoriesQuery.Where(c => c.CategoryName.ToLower().Contains(categoryKeyword.ToLower()));
+            }
+
+            var recipes = recipesQuery.Where(x => x.Status != RecipeEnum.Pending.ToString()).ToList();
+            var categories = categoriesQuery.ToList();
+
+            ViewBag.Recipes = recipes;
+            ViewBag.Categories = categories;
 
             return View();
         }
 
-        
+
+
 
         public IActionResult Privacy()
         {
@@ -39,16 +55,35 @@ namespace First_Project.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult recipe(decimal id)
+        public IActionResult AddToCart(int id)
         {
-            var recipy = _context.Recipes.Where(r => r.Recipeid == id).FirstOrDefault();
-            return View(recipy);
+            if (CheckUser())
+                return RedirectToAction("Index", "Menu", new { reipcyId = id });
+
+            return RedirectToAction("Login", "LoginAndRegister");
         }
 
-        public IActionResult Category(decimal id)
+        public IActionResult ViewCategoryRecipes(int id)
         {
-            var categories = _context.Categories.Where(r=> r.Categoryid == id).FirstOrDefault();
-            return View(categories);
+            if (CheckUser())
+            {
+                var recipes = _context.Recipes.Where(r => r.CategoryId == id)
+                    .Include(x=>x.User)
+                    .Include(x=>x.Category).ToList();
+                return View(recipes);
+            }
+            return RedirectToAction("Login", "LoginAndRegister");
+
         }
+
+
+        private bool CheckUser()
+        {
+            if (HttpContext.Session.GetInt32("LoggedUser") != null )
+                return true;
+
+            return false;
+        }
+
     }
 }

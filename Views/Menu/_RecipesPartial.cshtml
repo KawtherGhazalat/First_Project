@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Recipe>
+
+@foreach (var recipe in Model)
+{
+    <div class="card mb-3">
+        <img src="@Url.Content("~/Images/" + recipe.Image)" class="card-img-top" alt="@recipe.Title">
+        <div class="card-body">
+            <h5 class="card-title">@recipe.Title</h5>
+            <p class="card-text">@recipe.Description</p>
+        </div>
+    </div>
+}

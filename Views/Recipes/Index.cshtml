@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<Recipe>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LayoutChef.cshtml";
 
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -15,11 +13,29 @@
 </p>
 <table class="table">
     <thead>
-        <div class="col-12">
-            <form action="#" method="post">
-                <input type="search" name="search" placeholder="Type Here...">
-                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="row">
+            <form id="searchForm" asp-action="Index" method="get">
+                <div class="form-group col-3">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search..." />
+                </div>
+                <div class="form-group col-3">
+                    <input type="date" name="startDate" class="form-control" placeholder="Start Date" />
+                </div>
+                <div class="form-group col-3">
+                    <input type="date" name="endDate" class="form-control" placeholder="End Date" />
+                </div>
+                <div class="col-2">
+
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
             </form>
+            <div class="col-2">
+                <form asp-action="ExportToCSV" method="post">
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                </form>
+            </div>
+
         </div>
 
         <tr>
@@ -33,12 +49,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            
+        
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
             </th>
             <th>
 
@@ -46,33 +66,42 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                    <img src=@Url.Content("~/Images/" + item.Image )
-                         asp-append-version="true" style="border-radius:20%;" width="100" height="100" />
-            </td>
-            <td>
-                @* @Html.DisplayFor(modelItem => item.Description) *@
-                    <p title="@(item.Description.Length > 10 ? item.Description : null)">@(item.Description.Length > 10 ? item.Description.Substring(0,10)+ "..." : item.Description)</p>
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Recipeid">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Recipeid">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Recipeid">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        <img src="@Url.Content("~/Images/" + item.Image)" height="200" width="200" class="img-fluid" />
+                    }
+                    else
+                    {
+                        <span>No image available</span>
+                    }
+                </td>
+                <td>
+                    <p title="@(item.Description.Length > 10 ? item.Description : null)">@(item.Description.Length > 10 ? item.Description.Substring(0, 10) + "..." : item.Description)</p>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

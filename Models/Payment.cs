@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace First_Project.Models;
 
-public partial class Payment
+public class Payment
 {
-    public decimal Paymentid { get; set; }
-
-    public decimal? Userid { get; set; }
-
+    [Key]
+    public int ID { get; set; }
+    public int UserId { get; set; }
     public decimal Amount { get; set; }
-
-    public DateTime Paymentdate { get; set; }
+    [ForeignKey("UserId")]
+    public User? User { get; set; }
+    public DateTime CreationDate { get; set; }
 }

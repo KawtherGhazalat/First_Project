@@ -1,0 +1,237 @@
+﻿@model IEnumerable<Category>
+
+@{
+    Layout = null;
+}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<section class="bg-light py-5" id="menu">
+    <div class="container">
+        <h1 class="text-center mb-5">Menu</h1>
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-tabs justify-content-center mb-4" role="tablist">
+                    @foreach (var item in Model)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#" onclick="getData(@item.ID)">@item.CategoryName</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content pt-4">
+            <div class="tab-pane active">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <ul class="list-group" id="menuItems">
+                            <li class="list-group-item"> Please select a category and start placing orders!</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Recipe Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblBody">
+                                    <tr id="noDataTd">
+                                        <td colspan="4" class="text-center">No recipes</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot id="tblFoot"></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="d-flex align-items-center justify-content-end">
+        <button id="btnPlaceOrder" class="btn btn-success">
+            Place Order
+        </button>
+    </div>
+</section>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    let selectedItems = [];
+    $(document).ready({
+
+    });
+
+    $('#btnPlaceOrder').on('click', function () {
+        var confirmation = confirm("Are you sure you want to place these recipes?");
+        if (confirmation) {
+            if (selectedItems.length != 0) {
+                // Convert price to double and categoryId to int
+                var updatedItems = selectedItems.map(item => {
+                    return {
+                        ...item,
+                        price: parseFloat(item.price), // Convert price to double
+                        categoryId: parseInt(item.categoryId) // Convert categoryId to int
+                    };
+                });
+
+                $.ajax({
+                    url: '@Url.Action("PlaceOrder", "Menu")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updatedItems), // Send the updated items
+                    success: function (data) {
+                        if (data.type == 0) {
+                            alert(data.message);
+                        } else if (data.type == 1) {
+                            alert(data.message);
+                            window.location.href = '@Url.Action("Index", "Payment")';
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while placing the order.');
+                    }
+                });
+            }
+        }
+    });
+    function getData(id) {
+        $.ajax({
+            url: '@Url.Action("GetRecipesByCategory", "Menu")',
+            method: "GET",
+            data: { categoryId: id },
+            success: function (data) {
+                $('#menuItems').empty();
+                $.each(data, function (value, obj) {
+                    debugger
+                    $('#menuItems').append(`
+
+                                                         <li class="list-group-item d-flex align-items-center">
+                                                        <div class="col-3">
+                                                                                <img class="item-img" height="100" widtd="100" src="~/Images/pizza.jpeg" alt="${obj.title}" />
+                                                        </div>
+                                                        <div class="ps-4 col-9">
+                                                                <h4 class="list-group-item-heading">${obj.title}<span class="badge pull-right">${obj.price} JOD</span></h4>
+                                                            <p class="list-group-item-text">${obj.description}</p>
+                                                            <div class="d-flex align-items-center justify-content-end">
+                                                                    <button class='btn btn-primary' onClick='AddToMenu("${obj.id}", "${obj.price}","${obj.categoryId}","${obj.title}" , "${obj.recipeId}")'>Add</button>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                 `);
+                });
+            },
+            error: function () { }
+        });
+    }
+
+    function removeAllItems() {
+        selectedItems = [];
+        $('#tblBody').empty();
+        $('#tblFoot').empty();
+
+        $('#tblBody').append(`<tr id="noDataTd">
+                                                        <td colspan="4" class="text-center"> No data</td>
+                                                    </tr>`);
+    }
+
+    function AddToMenu(Id, Price, CategoryId, Name, RecipeId) {
+
+        if (selectedItems.find(x => x.id === Id) !== undefined) {
+            selectedItems = selectedItems.map(obj => {
+                if (obj.id === Id) {
+                    return { ...obj, quantity: obj.quantity + 1 };
+                }
+                return obj;
+            });
+        }
+        else {
+            selectedItems.push({
+                id: Id,
+                name: Name,
+                price: Price,
+                quantity: 1,
+                categoryId: CategoryId,
+                recipeId: RecipeId
+            });
+        }
+        $('#noDataTd').hide();
+        reDrawTable();
+    }
+
+    function splice(id) {
+        var selectedItem = selectedItems.find(x => x.id === id + '')
+        if (selectedItem !== undefined && selectedItem.quantity > 1) {
+            selectedItems = selectedItems.map(obj => {
+                if (obj.id === id + '') {
+                    return { ...obj, quantity: obj.quantity - 1 };
+                }
+                return obj;
+            });
+            reDrawTable();
+        }
+        else {
+            const index = selectedItems.findIndex(obj => obj.id === id + '');
+            if (index !== -1) {
+                selectedItems.splice(index, 1);
+            }
+            reDrawTable();
+        }
+        if (selectedItems.length == 0) {
+            removeAllItems();
+        }
+    }
+    function reDrawTable() {
+        $('#tblBody').empty();
+        $.each(selectedItems, function (value, obj) {
+            $('#tblBody').append(`
+                             <tr>
+                                    <td> ${obj.name} </td>
+                                    <td> ${obj.price} JOD </td>
+                                    <td>  ${obj.quantity} </td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="splice(${obj.id})">-</button>
+                                    </td>
+
+                            </tr>
+                        `);
+            $('#tblFoot').empty();
+            $('#tblFoot').append(`
+                                <tr>
+                                    <td colspan="2"> <strong> Total price : </strong> ${getTotalPrices()} JOD</td>
+                                    <td colspan="1"> <strong> Total Quanitites : </strong>  ${getTotalQuantities()} </td>
+                                    <td colspan="1"> <button class="btn btn-danger" onclick="removeAllItems()">Remove all items</button> </td>
+
+                                </tr>
+                                `);
+        });
+
+    }
+
+    function getTotalPrices() {
+        let totalPrice = 0;
+        selectedItems.forEach(item => {
+            totalPrice += item.price * item.quantity;
+        });
+        return totalPrice;
+
+    }
+    function getTotalQuantities() {
+        let totalQuantities = 0;
+        selectedItems.forEach(item => {
+            totalQuantities += item.quantity;
+        });
+        return totalQuantities;
+    }
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+

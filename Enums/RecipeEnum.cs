@@ -2,8 +2,8 @@
 {
     public enum RecipeEnum
     {
-        Accepted = 0,
         Rejected = 1,
-        Pending = 2
+        Pending = 2,
+        Accepted = 3,
     }
 }

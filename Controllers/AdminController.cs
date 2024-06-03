@@ -14,28 +14,30 @@ namespace First_Project.Controllers
         }
         public IActionResult Index()
         {
+            if (!CheckAdmin())
+                return RedirectToAction("Login", "LoginAndRegister");
+
             DashboardCounter counter = new DashboardCounter()
             {
-                Users = _context.Users.Where(x => x.Roleid == 2).ToList().Count(),
-                Chefs = _context.Users.Where(x => x.Roleid == 3).ToList().Count(),
-                Recipes = _context.Recipes.ToList().Count()
+                Users = _context.Users.Where(x => x.RoleId == 2).ToList().Count(),
+                Chefs = _context.Users.Where(x => x.RoleId == 3).ToList().Count(),
+                Recipes = _context.Recipes.ToList().Count(),
+                SoldRecipes = _context.Recipes.Where(x=>x.isSold == true).ToList().Count()
             };
+
+            ViewBag.Recipes = _context.Recipes.Include(x=>x.User).Include(x=>x.Category).Where(x => x.isSold == true).ToList(); 
+
             return View(counter);
+
         }
 
-        //public IActionResult JoinTables()
-        //{
-        //    var Categories = _context.Categories.ToList();
-        //    var recipes = _context.Recipes.ToList();
-        //    var users = _context.Users.ToList();
-        //    var CategoryRecipe = _context.CategoryRecipe.ToList();
+        private bool CheckAdmin ()
+        {
+            if (HttpContext.Session.GetInt32("LoggedAdmin") != null)
+                return true;
 
-        //    var result = from u in users
-        //                 join cr in CategoryRecipe on u.Id equals cr.CustomerId
-        //                 join r in recipes on cr.ProductId equals r.Id
-        //                 join cat in Categories on r.CategoryId equals cat.Id
-        //                 select new JoinTables { users = u, Category = cat, Recipe = r, CategoryRecipe = cr };
-        //    return View(result);
-        //}
+            return false;
+
+        }
     }
 }
