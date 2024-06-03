@@ -2,14 +2,17 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Recipes Pending Requests</h1>
 
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -25,9 +28,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
@@ -38,38 +39,49 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instructions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Categoryid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Userid)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Recipeid">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Recipeid">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Recipeid">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src=@Url.Content("~/Images/" + item.Image )
+                         asp-append-version="true" style="border-radius:20%;" width="100" height="100" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <p title="@(item.Description.Length > 15 ? item.Description : string.Empty)">
+                        @(item.Description.Length > 15 ? item.Description.Substring(0, 15) + "..." : item.Description)
+                    </p>
+                </td>
+                <td>
+                    <p title="@(item.Instructions.Length > 15 ? item.Instructions : string.Empty)">
+                        @(item.Instructions.Length > 15 ? item.Instructions.Substring(0, 15) + "..." : item.Instructions)
+                    </p>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)
+                </td>
+                <td>
+                    <a class="btn btn-danger" href="@Url.Action("RejectRecipeRequest", new {recipeId = item.ID})">
+                        Reject
+                    </a>
+
+                    <a class="btn btn-primary" href="@Url.Action("AcceptRecipeRequest", new {recipeId = item.ID})">
+                        Accept
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

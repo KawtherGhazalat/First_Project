@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace First_Project.Models;
 
 public partial class Role
 {
-    public decimal Roleid { get; set; }
-
-    public string Rolename { get; set; } = null!;
-
+    [Key]
+    public int ID { get; set; }
+    public string RoleName { get; set; } = null!;
     public virtual ICollection<User> Users { get; } = new List<User>();
 }

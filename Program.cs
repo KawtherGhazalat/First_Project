@@ -1,5 +1,6 @@
 using First_Project.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace First_Project
 {
@@ -10,9 +11,15 @@ namespace First_Project
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
-            builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(60); });
-            builder.Services.AddDbContext<ModelContext>(x => x.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddControllersWithViews()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
+
+            builder.Services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(60); });            builder.Services.AddDbContext<ModelContext>(x => x.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            //builder.Services.AddDbContext<ModelContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

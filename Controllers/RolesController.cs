@@ -35,7 +35,7 @@ namespace First_Project.Controllers
             }
 
             var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.Roleid == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (role == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace First_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(decimal id, [Bind("Roleid,Rolename")] Role role)
         {
-            if (id != role.Roleid)
+            if (id != role.ID)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace First_Project.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoleExists(role.Roleid))
+                    if (!RoleExists(role.ID))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace First_Project.Controllers
             }
 
             var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.Roleid == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (role == null)
             {
                 return NotFound();
@@ -156,7 +156,7 @@ namespace First_Project.Controllers
 
         private bool RoleExists(decimal id)
         {
-          return (_context.Roles?.Any(e => e.Roleid == id)).GetValueOrDefault();
+          return (_context.Roles?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

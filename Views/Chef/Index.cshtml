@@ -1,359 +1,174 @@
 ﻿@{
-    Layout = "~/Views/Shared/_HomeLayout.cshtml";
-
+    Layout = "~/Views/Shared/_LayoutChef.cshtml";
 }
+<style>
+    .card {
+        transition: transform 0.3s ease;
+    }
 
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-<!-- Newsletter Form -->
-<div class="search-btn">
-    <i class="fa fa-search" aria-hidden="true"></i>
-</div>
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
 
-                            
+    .card-title {
+        font-size: 1.2rem;
+    }
 
-@* login and logout *@
-<li class="nav-item d-flex align-items-center">
-    <a class="nav-link text-body font-weight-bold px-0" asp-action="Login" asp-controller="LoginAndRegister">
-        <i class="fa fa-user me-sm-1"></i>
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+    }
 
-        <span class="d-sm-inline d-none">Log In</span>
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
 
-    </a>
-</li>
-</div>
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
 
-<!-- Nav End -->
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-<!-- ##### Header Area End ##### -->
-<!-- ##### Hero Area Start ##### -->
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .recipe-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+</style>
 <section class="hero-area">
     <div class="hero-slides owl-carousel">
-        <!-- Single Hero Slide -->
         <div class="single-hero-slide bg-img custome-style-one">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                      
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Single Hero Slide -->
-        <div class="single-hero-slide bg-img custome-style-two" >
+        <div class="single-hero-slide bg-img custome-style-two">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                        
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Single Hero Slide -->
-        <div class="single-hero-slide bg-img custome-style-three" >
+        <div class="single-hero-slide bg-img custome-style-three">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                    
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- ##### Hero Area End ##### -->
-<!-- ##### Top Catagory Area Start ##### -->
 <section class="top-catagory-area section-padding-80-0">
     <div class="container">
         <div class="row">
-            <!-- Top Catagory Area -->
-            <div class="container">
-                <div class="row">
-                    <!-- Top Catagory Area 1 -->
-                    <div class="col-12 col-lg-6">
-                        <div class="single-top-catagory">
-                            <img src="~/Images/pasta.jpeg" alt="" class="img-fluid">
-                            <!-- Content -->
-                            <div class="top-cta-content">
-                                <h3>Pasta</h3>
-                                <h6>Simple &amp; Delicious</h6>
-                                <a href="receipe-post.html" class="btn delicious-btn">See Full Recipe</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Top Catagory Area 2 -->
-                    <div class="col-12 col-lg-6">
-                        <div class="single-top-catagory">
-                            <img src="~/Images/spagiti.jpeg" alt="" class="img-fluid">
-                            <!-- Content -->
-                            <div class="top-cta-content">
-                                <h3>Spaghetti Carbonara</h3>
-                                <h6>Simple &amp; Delicious</h6>
-                                <a href="receipe-post.html" class="btn delicious-btn">See Full Recipe</a>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-12">
+                <div class="section-heading">
+                    <h3>The best Categories</h3>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <form id="searchForm" asp-action="Index" method="get" class="form-inline mb-4">
+                    <div class="form-group col-8">
+                        <input type="text" name="categoryKeyword" class="form-control w-100" placeholder="Search Categories" />
+                    </div>
+                    <div class="form-group col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <img src="@Url.Content("~/Images/" + item.ImagePath)" class="card-img-top" alt="Category Image">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.CategoryName</h5>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </section>
-<!-- ##### Top Catagory Area End ##### -->
-<!-- ##### Best Receipe Area Start ##### -->
 <section class="best-receipe-area">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="section-heading">
                     <h3>The best Receipies</h3>
-                    <a asp-action="AddRes" asp-controller="Chef">Add Receipies</a>
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="~/Home/img/bg-img/r1.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5> @item.Title </h5>
-                                <h5> @item.Price </h5>
-                                <h5> @item.Description </h5>
-                                <h5> @item.Instructions </h5>
-                                <a asp-action="" asp-controller="" asp-route-id="@item.Recipeid">Edit</a>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            }
-        </div>
-    </div>
-</section>
-
-<style>
-    .recipe-image {
-        width: 100%;
-        height: 300px; /* Adjust the height as needed */
-        object-fit: cover;
-    }
-</style>
-
-<!-- ##### Best Receipe Area End ##### -->
-<!-- ##### CTA Area Start ##### -->
-
-<!-- ##### CTA Area End ##### -->
-<!-- ##### Small Receipe Area Start ##### -->
-<section class="small-receipe-area section-padding-80-0">
-    <div class="container">
-        <div class="row">
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Images/chic.jpeg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Grilled Chicken</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Images/cookies.jpeg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Chocolate Chip Cookies</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
-            <!-- Small Receipe Area -->
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="single-small-receipe-area d-flex">
-                    <!-- Receipe Thumb -->
-                    <div class="receipe-thumb">
-                        <img src="~/Images/spagiti.jpeg" alt="">
-                    </div>
-                    <!-- Receipe Content -->
-                    <div class="receipe-content">
-                        <span>January 04, 2018</span>
-                        <a href="receipe-post.html">
-                            <h5>Spaghetti Carbonara</h5>
-                        </a>
-                        <div class="ratings">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                        </div>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- ##### Small Receipe Area End ##### -->
-<!-- ##### Quote Subscribe Area Start ##### -->
-<section class="quote-subscribe-adds">
-    <div class="container">
-        <div class="row align-items-end">
-            <!-- Quote -->
-            <div class="col-12 col-lg-4">
-                <div class="quote-area text-center">
-                    <span>"</span>
-                    <h4>Nothing is better than going home to family and eating good food and relaxing</h4>
-                    <p>John Smith</p>
-                    <div class="date-comments d-flex justify-content-between">
-                        
-                    </div>
-                </div>
-            </div>
-
-            <!-- Newsletter -->
-            <div class="col-12 col-lg-4">
-                <div class="newsletter-area">
-                    <h4>Subscribe to our newsletter</h4>
-                    <!-- Form -->
-                    <div class="newsletter-form bg-img bg-overlay" style="background-image: url(img/bg-img/bg1.jpg);">
-                        <form action="#" method="post">
-                            <input type="email" name="email" placeholder="Subscribe to newsletter">
-                            <button type="submit" class="btn delicious-btn w-100">Subscribe</button>
-                        </form>
-                        <p>Fusce nec ante vitae lacus aliquet vulputate. Donec sceleri sque accumsan molestie. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Adds -->
-            <div class="col-12 col-lg-4">
-                <div class="delicious-add">
-                    <img src="~/Home/img/bg-img/add.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- ##### Quote Subscribe Area End ##### -->
-<!-- ##### Follow Us Instagram Area Start ##### -->
-<div class="follow-us-instagram">
-    <div class="container">
         <div class="row">
             <div class="col-12">
-                <h5>Follow Us Instragram</h5>
+                <form id="searchForm" asp-action="Index" method="get" class="form-inline mb-4">
+                    <div class="form-group col-8">
+                        <input type="text" name="recipeKeyword" class="form-control w-100" placeholder="Search Recipes" />
+                    </div>
+                    <div class="form-group col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    </div>
+                </form>
             </div>
         </div>
+
+        <div class="row">
+            @foreach (var item in ViewBag.Recipes)
+            {
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@Url.Content("~/Images/" + item.Image)" class="card-img-top" alt="Recipe Image">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
     </div>
-    <!-- Instagram Feeds -->
-    <div class="insta-feeds d-flex flex-wrap">
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta1.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
+</section>
 
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta2.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta3.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
+<script>
+    $(document).ready(function () {
+        $('.testimonial-btn').click(function () {
+            var recipeId = $(this).data('recipe-id');
+            var recipeTitle = $(this).data('recipe-title');
 
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta4.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta5.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta6.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-
-        <!-- Single Insta Feeds -->
-        <div class="single-insta-feeds">
-            <img src="~/Home/img/bg-img/insta7.jpg" alt="">
-            <!-- Icon -->
-            <div class="insta-icon">
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ##### Follow Us Instagram Area End ##### -->
+            $('#recipeId').val(recipeId);
+            $('#recipeTitle').text(recipeTitle);
+        });
+    });
+</script>

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using First_Project.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using Microsoft.AspNetCore.Hosting;
 using First_Project.Enums;
+using System.Text;
+using First_Project.DTOs;
 
 namespace First_Project.Controllers
 {
@@ -16,7 +12,6 @@ namespace First_Project.Controllers
     {
         private readonly ModelContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        //private object await_ModelContext;
 
         public RecipesController(ModelContext context, IWebHostEnvironment _webHostEnvironment)
         {
@@ -24,17 +19,29 @@ namespace First_Project.Controllers
             this._webHostEnvironment = _webHostEnvironment;
         }
 
-        // GET: Recipes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string keyword, DateTime? startDate, DateTime? endDate)
         {
-            var result =await _context.Recipes.ToListAsync();
-            return View(result);
-            //var modelContext = _context.Recipes.Include(r => r.Category).Include(r => r.User);
-            //return View(await modelContext.ToListAsync());
-        }
+            IQueryable<Recipe> query = _context.Recipes;
 
-        // GET: Recipes/Details/5
-        public async Task<IActionResult> Details(decimal? id)
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(r => r.Title.Contains(keyword) || r.Description.Contains(keyword));
+            }
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(r => r.CreationDate >= startDate.Value.Date);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(r => r.CreationDate <= endDate.Value.Date);
+            }
+
+            var recipes = await query.Where(y=>y.Status != RecipeEnum.Pending.ToString()).ToListAsync();
+            return View(recipes);
+        }
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Recipes == null)
             {
@@ -44,7 +51,7 @@ namespace First_Project.Controllers
             var recipe = await _context.Recipes
                 .Include(r => r.Category)
                 .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.Recipeid == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (recipe == null)
             {
                 return NotFound();
@@ -53,11 +60,10 @@ namespace First_Project.Controllers
             return View(recipe);
         }
 
-        // GET: Recipes/Create
         public IActionResult Create()
         {
-            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryid");
-            ViewData["Userid"] = new SelectList(_context.Users, "Userid", "Userid");
+            ViewData["Categories"] = new SelectList(_context.Categories, "ID", "CategoryName");
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
             ViewData["StatusEnums"] = Enum.GetNames(typeof(RecipeEnum)).Select(e => new SelectListItem()
             {
                 Text = e,
@@ -67,43 +73,43 @@ namespace First_Project.Controllers
             return View();
         }
 
-        // POST: Recipes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Recipeid,Title,Description,Instructions,Price,Userid,Categoryid,Status,Image")] Recipe recipe)
+        public async Task<IActionResult> Create([Bind("CreationDate,Title,Description,Instructions,Price,UserId,CategoryId,Status,ImageFile")] Recipe recipe)
         {
-          
-                if (ModelState.IsValid || recipe.ImageFile != null)
+            if (recipe.ImageFile != null && recipe.ImageFile.Length > 0)
+            {
+                string wwwrootPath = _webHostEnvironment.WebRootPath;
+                string imageName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(recipe.ImageFile.FileName);
+                string fullPath = Path.Combine(wwwrootPath, "Images", imageName);
+
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
                 {
-
-                    string wwwrootPath = _webHostEnvironment.WebRootPath;
-                    string imageName = Guid.NewGuid().ToString() + "_" + recipe.ImageFile.FileName;
-                    string fullPath = Path.Combine(wwwrootPath + "/Images/", imageName);
-                    using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        await recipe.ImageFile.CopyToAsync(fileStream);
-
-                    }
-                    recipe.Image = imageName;
+                    await recipe.ImageFile.CopyToAsync(fileStream);
                 }
-                    _context.Add(recipe);
+
+                recipe.Image = imageName;
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(recipe);
                 await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
 
-            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryid", recipe.Categoryid);
-            ViewData["Userid"] = new SelectList(_context.Users, "Userid", "Userid", recipe.Userid);
-            //return View(recipe);
-
-            return RedirectToAction(nameof(Index));
-
-           
+            ViewData["Categories"] = new SelectList(_context.Categories, "ID", "CategoryName");
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
+            ViewData["StatusEnums"] = Enum.GetNames(typeof(RecipeEnum)).Select(e => new SelectListItem()
+            {
+                Text = e,
+                Value = e
+            }); return View(recipe);
         }
 
-        // GET: Recipes/Edit/5
-        public async Task<IActionResult> Edit(decimal? id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Recipes == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -113,19 +119,21 @@ namespace First_Project.Controllers
             {
                 return NotFound();
             }
-            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryid", recipe.Categoryid);
-            ViewData["Userid"] = new SelectList(_context.Users, "Userid", "Userid", recipe.Userid);
+
+            ViewData["Categories"] = new SelectList(_context.Categories, "ID", "CategoryName");
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
+            ViewData["StatusEnums"] = Enum.GetNames(typeof(RecipeEnum)).Select(e => new SelectListItem()
+            {
+                Text = e,
+                Value = e
+            });
             return View(recipe);
         }
-
-        // POST: Recipes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(decimal id, [Bind("Recipeid,Title,Description,Instructions,Price,Userid,Categoryid,Status,Image")] Recipe recipe)
+        public async Task<IActionResult> Edit(int id, [Bind("CreationDate,ID,Title,Description,Instructions,Price,UserId,CategoryId,Status,ImageFile")] Recipe recipe)
         {
-            if (id != recipe.Recipeid)
+            if (id != recipe.ID)
             {
                 return NotFound();
             }
@@ -134,12 +142,26 @@ namespace First_Project.Controllers
             {
                 try
                 {
+                    if (recipe.ImageFile != null && recipe.ImageFile.Length > 0)
+                    {
+                        string wwwrootPath = _webHostEnvironment.WebRootPath;
+                        string imageName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(recipe.ImageFile.FileName);
+                        string fullPath = Path.Combine(wwwrootPath, "Images", imageName);
+
+                        recipe.Image = imageName;
+
+                        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await recipe.ImageFile.CopyToAsync(fileStream);
+                        }
+                    }
+
                     _context.Update(recipe);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecipeExists(recipe.Recipeid))
+                    if (!RecipeExists(recipe.ID))
                     {
                         return NotFound();
                     }
@@ -150,15 +172,20 @@ namespace First_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Categoryid"] = new SelectList(_context.Categories, "Categoryid", "Categoryid", recipe.Categoryid);
-            ViewData["Userid"] = new SelectList(_context.Users, "Userid", "Userid", recipe.Userid);
-            return View(recipe);
+
+            ViewData["Categories"] = new SelectList(_context.Categories, "ID", "CategoryName");
+            ViewData["Users"] = new SelectList(_context.Users, "ID", "Username");
+            ViewData["StatusEnums"] = Enum.GetNames(typeof(RecipeEnum)).Select(e => new SelectListItem()
+            {
+                Text = e,
+                Value = e
+            }); return View(recipe);
         }
 
-        // GET: Recipes/Delete/5
-        public async Task<IActionResult> Delete(decimal? id)
+
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Recipes == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -166,7 +193,8 @@ namespace First_Project.Controllers
             var recipe = await _context.Recipes
                 .Include(r => r.Category)
                 .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.Recipeid == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (recipe == null)
             {
                 return NotFound();
@@ -175,28 +203,106 @@ namespace First_Project.Controllers
             return View(recipe);
         }
 
-        // POST: Recipes/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(decimal id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Recipes == null)
-            {
-                return Problem("Entity set 'ModelContext.Recipes'  is null.");
-            }
             var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe != null)
+            if (recipe == null)
             {
-                _context.Recipes.Remove(recipe);
+                return NotFound();
             }
-            
+
+            _context.Recipes.Remove(recipe);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RecipeExists(decimal id)
+        public async Task<IActionResult> ExportToCSV()
         {
-          return (_context.Recipes?.Any(e => e.Recipeid == id)).GetValueOrDefault();
+            var recipes = await _context.Recipes
+                .Include(r => r.User)
+                .Include(r => r.Category)
+                .Select(r => new RecipeReportDto
+                {
+                    Title = r.Title,
+                    Description = r.Description,
+                    Instructions = r.Instructions,
+                    Price = r.Price,
+                    Username = r.User.Username,
+                    CategoryName = r.Category.CategoryName
+                }).ToListAsync();
+
+            var csvContent = new StringBuilder();
+            csvContent.AppendLine("Title,Description,Instructions,Price,Username,CategoryName");
+            foreach (var recipe in recipes)
+            {
+                csvContent.AppendLine($"{recipe.Title},{recipe.Description},{recipe.Instructions},{recipe.Price},{recipe.Username},{recipe.CategoryName}");
+            }
+            return File(Encoding.UTF8.GetBytes(csvContent.ToString()), "text/csv", "recipes.csv");
+        }
+
+        public async Task<IActionResult> ExportToCSVSoldRecipes()
+        {
+            var recipes = await _context.Recipes
+                .Include(r => r.User)
+                .Include(r => r.Category)
+                .Where(x=> x.isSold == true)
+                .Select(r => new RecipeReportDto
+                {
+                    Title = r.Title,
+                    Description = r.Description,
+                    Instructions = r.Instructions,
+                    Price = r.Price,
+                    Username = r.User.Username,
+                    CategoryName = r.Category.CategoryName
+                }).ToListAsync();
+
+            var csvContent = new StringBuilder();
+            csvContent.AppendLine("Title,Description,Instructions,Price,Username,CategoryName");
+            foreach (var recipe in recipes)
+            {
+                csvContent.AppendLine($"{recipe.Title},{recipe.Description},{recipe.Instructions},{recipe.Price},{recipe.Username},{recipe.CategoryName}");
+            }
+            return File(Encoding.UTF8.GetBytes(csvContent.ToString()), "text/csv", "recipes.csv");
+        }
+
+        public IActionResult GetAllRecipeisForUser()
+        {
+            if (!CheckUser())
+                return RedirectToAction("Login", "LoginAndRegister");
+
+            return View(_context.Recipes.Include(x=>x.User).Include(x=>x.Category).ToList());
+        }
+
+        [HttpPost]
+        public IActionResult SubmitTestimonial(string content, int recipeId)
+        {
+            _context.Testimonials.Add(new Testimonial() 
+            {
+                Content = content,
+                Dateposted = DateTime.UtcNow,
+                RecipeId = recipeId,
+                UserId = HttpContext.Session.GetInt32("LoggedUser").Value,
+                isActive = false
+            });
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Users"); 
+        }
+
+        private bool RecipeExists(int id)
+        {
+            return (_context.Recipes?.Any(e => e.RecipeId == id)).GetValueOrDefault();
+        }
+
+        private bool CheckUser()
+        {
+            if (HttpContext.Session.GetInt32("LoggedUser") != null)
+                return true;
+
+            return false;
         }
     }
 }

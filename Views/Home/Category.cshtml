@@ -1,0 +1,22 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "category";
+    //Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<h1 class="text-center">@Model.CategoryName</h1>
+
+<div class="d-flex justify-content-center">
+    <div class="single-best-recipe-area mb-30">
+        <div class="recipe-content text-center">
+            <h5>@Model.Description</h5>
+            <div class="ratings">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star-o" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
